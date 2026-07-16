@@ -15,6 +15,7 @@ final class KeyboardCommandTests: XCTestCase {
     }
     func testNavigation() {
         XCTAssertEqual(map(125), .moveSelection(1)); XCTAssertEqual(map(126), .moveSelection(-1))
+        XCTAssertEqual(map(124), .expandSelection); XCTAssertEqual(map(123), .collapseSelection)
         XCTAssertEqual(map(36), .activateSelection); XCTAssertEqual(map(53), .dismiss)
     }
     func testTypeToSelect() {
@@ -29,10 +30,10 @@ final class KeyboardCommandTests: XCTestCase {
 final class AeroSpaceOutputParserTests: XCTestCase {
     func testGroupsApplicationsAndCountsEveryWindow() {
         let output = """
-        1\tSafari
-        1\tSafari
-        1\tTerminal
-        3\tFinder
+        101\t1\tSafari\tDocumentation
+        102\t1\tSafari\tRelease Notes
+        103\t1\tTerminal\tssh prod
+        104\t3\tFinder\t
         """
 
         let result = AeroSpaceOutputParser.applicationsByWorkspace(output)
@@ -45,7 +46,65 @@ final class AeroSpaceOutputParserTests: XCTestCase {
     }
 
     func testIgnoresMalformedAndEmptyRows() {
-        let result = AeroSpaceOutputParser.applicationsByWorkspace("bad row\n2\t\n\tFinder\n")
+        let result = AeroSpaceOutputParser.applicationsByWorkspace("bad row\nabc\t2\tSafari\tTitle\n2\t\tFinder\tTitle\n")
         XCTAssertTrue(result.isEmpty)
+    }
+
+    func testParsesWindowIdentityAndTitle() {
+        XCTAssertEqual(AeroSpaceOutputParser.windows("42\t3\tTerminal\tssh prod\n"), [
+            AeroSpaceWindow(id: 42, workspaceID: "3", applicationName: "Terminal", title: "ssh prod")
+        ])
+    }
+}
+
+final class AeroSpaceCommandTests: XCTestCase {
+    func testWindowActivationUsesStableWindowID() {
+        XCTAssertEqual(AeroSpaceCommand.window(42).arguments, ["focus", "--window-id", "42"])
+    }
+
+    func testWorkspaceActivationIsPreserved() {
+        XCTAssertEqual(AeroSpaceCommand.workspace("N").arguments, ["workspace", "N"])
+    }
+}
+
+@MainActor
+final class WorkspaceNavigationTests: XCTestCase {
+    private let windows = [
+        AeroSpaceWindow(id: 10, workspaceID: "1", applicationName: "Terminal", title: "ssh"),
+        AeroSpaceWindow(id: 11, workspaceID: "1", applicationName: "Terminal", title: "logs")
+    ]
+
+    func testExpandAndNavigateVisibleHierarchy() {
+        let model = makeModel()
+        model.expandSelection()
+
+        XCTAssertEqual(model.expandedWorkspaceID, "1")
+        XCTAssertEqual(model.visibleItems, [.workspace("1"), .window(10), .window(11), .workspace("2")])
+
+        model.move(by: 1)
+        XCTAssertEqual(model.selection, .window(10))
+    }
+
+    func testCollapseFromChildReturnsToParent() {
+        let model = makeModel()
+        model.expandSelection()
+        model.move(by: 1)
+        model.collapseSelection()
+
+        XCTAssertEqual(model.selection, .workspace("1"))
+        XCTAssertNil(model.expandedWorkspaceID)
+    }
+
+    func testEmptyWorkspaceDoesNotExpand() {
+        let model = makeModel(selection: .workspace("2"))
+        model.expandSelection()
+        XCTAssertNil(model.expandedWorkspaceID)
+    }
+
+    private func makeModel(selection: WorkspaceSelection = .workspace("1")) -> WorkspaceModel {
+        WorkspaceModel(workspaces: [
+            Workspace(id: "1", windows: windows, isActive: true),
+            Workspace(id: "2", windows: [], isActive: false)
+        ], selection: selection)
     }
 }

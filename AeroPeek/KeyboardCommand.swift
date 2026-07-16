@@ -1,7 +1,7 @@
 import AppKit
 
 enum KeyboardCommand: Equatable {
-    case dismiss, selectFirst, selectLast, activateSelection
+    case dismiss, selectFirst, selectLast, expandSelection, collapseSelection, activateSelection
     case moveSelection(Int)
     case activateWorkspace(String)
 }
@@ -35,6 +35,8 @@ enum KeyboardCommandMapper {
         case 126: return .moveSelection(-1)
         case 123 where input.modifiers.contains(.function): return .selectFirst
         case 124 where input.modifiers.contains(.function): return .selectLast
+        case 123: return .collapseSelection
+        case 124: return .expandSelection
         case 36, 76: return .activateSelection
         default: break
         }

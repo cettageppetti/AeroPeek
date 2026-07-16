@@ -29,8 +29,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         case .moveSelection(let offset): model.move(by: offset)
         case .selectFirst: model.selectFirst()
         case .selectLast: model.selectLast()
-        case .activateSelection: if let id = model.selection { model.activate(id); hide() }
-        case .activateWorkspace(let id): if model.select(id) { model.activate(id); hide() }
+        case .expandSelection: model.expandSelection()
+        case .collapseSelection: model.collapseSelection()
+        case .activateSelection: model.activateSelection(); hide()
+        case .activateWorkspace(let id):
+            if model.selectWorkspace(id) { model.activateWorkspace(id); hide() }
         }
     }
 

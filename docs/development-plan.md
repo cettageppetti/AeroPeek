@@ -4,4 +4,6 @@ Version 1.1 implements keyboard navigation, Home/End normalization, type-to-sele
 
 Version 1.2 adds a native material surface, application icons, improved typography and focus treatment, per-workspace window counts, duplicate-app counts, and subdued empty workspaces.
 
-Expandable workspaces and search remain deferred.
+Version 1.3 turns the overlay into a workspace and window switcher. Right Arrow expands one workspace at a time, individual windows participate in keyboard navigation, Return focuses a selected window, and Left Arrow collapses back to the workspace row.
+
+Search remains deferred.
