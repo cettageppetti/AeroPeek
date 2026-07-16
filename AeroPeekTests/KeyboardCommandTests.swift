@@ -6,16 +6,16 @@ final class KeyboardCommandTests: XCTestCase {
     func testEndRepresentations() {
         XCTAssertEqual(map(119), .selectLast)
         XCTAssertEqual(map(0, String(UnicodeScalar(NSEndFunctionKey)!)), .selectLast)
-        XCTAssertEqual(map(124, nil, .function), .selectLast)
     }
     func testHomeRepresentations() {
         XCTAssertEqual(map(115), .selectFirst)
         XCTAssertEqual(map(0, String(UnicodeScalar(NSHomeFunctionKey)!)), .selectFirst)
-        XCTAssertEqual(map(123, nil, .function), .selectFirst)
     }
     func testNavigation() {
         XCTAssertEqual(map(125), .moveSelection(1)); XCTAssertEqual(map(126), .moveSelection(-1))
         XCTAssertEqual(map(124), .expandSelection); XCTAssertEqual(map(123), .collapseSelection)
+        XCTAssertEqual(map(124, nil, .function), .expandSelection)
+        XCTAssertEqual(map(123, nil, .function), .collapseSelection)
         XCTAssertEqual(map(36), .activateSelection); XCTAssertEqual(map(53), .dismiss)
     }
     func testTypeToSelect() {

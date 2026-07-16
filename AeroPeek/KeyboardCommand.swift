@@ -33,8 +33,6 @@ enum KeyboardCommandMapper {
         case 53: return .dismiss
         case 125: return .moveSelection(1)
         case 126: return .moveSelection(-1)
-        case 123 where input.modifiers.contains(.function): return .selectFirst
-        case 124 where input.modifiers.contains(.function): return .selectLast
         case 123: return .collapseSelection
         case 124: return .expandSelection
         case 36, 76: return .activateSelection
