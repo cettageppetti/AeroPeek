@@ -36,8 +36,6 @@ enum WorkspaceSelection: Hashable {
 
 @MainActor
 final class WorkspaceModel: ObservableObject {
-    static let workspaceIDs = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "C", "N"]
-
     @Published private(set) var workspaces: [Workspace]
     @Published private(set) var selection: WorkspaceSelection?
     @Published private(set) var expandedWorkspaceID: String?
@@ -62,11 +60,12 @@ final class WorkspaceModel: ObservableObject {
         Task {
             do {
                 let snapshot = try await AeroSpaceClient.snapshot()
-                workspaces = Self.workspaceIDs.map {
+                workspaces = snapshot.workspaceIDs.map {
                     Workspace(id: $0, windows: snapshot.windows[$0, default: []], isActive: $0 == snapshot.active)
                 }
                 expandedWorkspaceID = nil
-                selection = .workspace(workspaces.first(where: \.isActive)?.id ?? workspaces.first?.id ?? "")
+                selection = workspaces.first(where: \.isActive).map { .workspace($0.id) }
+                    ?? workspaces.first.map { .workspace($0.id) }
                 errorMessage = nil
             } catch { errorMessage = error.localizedDescription }
         }
@@ -135,16 +134,22 @@ final class WorkspaceModel: ObservableObject {
 }
 
 private enum AeroSpaceClient {
-    struct Snapshot: Sendable { let active: String; let windows: [String: [AeroSpaceWindow]] }
+    struct Snapshot: Sendable {
+        let workspaceIDs: [String]
+        let active: String
+        let windows: [String: [AeroSpaceWindow]]
+    }
 
     static func snapshot() async throws -> Snapshot {
-        async let active = run(["list-workspaces", "--focused"])
+        async let workspaceIDs = run(["list-workspaces", "--all", "--format", "%{workspace}"])
+        async let active = run(["list-workspaces", "--focused", "--format", "%{workspace}"])
         async let windows = run([
             "list-windows", "--all", "--format",
             "%{window-id}%{tab}%{workspace}%{tab}%{app-name}%{tab}%{window-title}"
         ])
         let parsedWindows = AeroSpaceOutputParser.windows(try await windows)
         return try await Snapshot(
+            workspaceIDs: AeroSpaceOutputParser.workspaceIDs(workspaceIDs),
             active: active.trimmingCharacters(in: .whitespacesAndNewlines),
             windows: Dictionary(grouping: parsedWindows, by: \.workspaceID)
         )
@@ -195,6 +200,13 @@ enum AeroSpaceCommand: Equatable {
 }
 
 enum AeroSpaceOutputParser {
+    static func workspaceIDs(_ output: String) -> [String] {
+        output.split(whereSeparator: \.isNewline).compactMap { line in
+            let id = line.trimmingCharacters(in: .whitespaces)
+            return id.isEmpty ? nil : id
+        }
+    }
+
     static func windows(_ output: String) -> [AeroSpaceWindow] {
         output.split(whereSeparator: \.isNewline).compactMap { line in
             let fields = line.split(separator: "\t", maxSplits: 3, omittingEmptySubsequences: false)

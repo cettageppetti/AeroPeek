@@ -42,7 +42,7 @@ enum KeyboardCommandMapper {
         let blocked: NSEvent.ModifierFlags = [.command, .control, .option]
         guard input.modifiers.intersection(blocked).isEmpty,
               let key = input.characters?.uppercased(), key.count == 1,
-              "123456789ACN".contains(key) else { return nil }
+              key.first?.isLetter == true || key.first?.isNumber == true else { return nil }
         return .activateWorkspace(key)
     }
 }
