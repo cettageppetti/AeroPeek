@@ -1,0 +1,73 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {};
+	objectVersion = 56;
+	objects = {
+/* Begin PBXBuildFile section */
+		B1 = {isa = PBXBuildFile; fileRef = F1;}; B2 = {isa = PBXBuildFile; fileRef = F2;}; B3 = {isa = PBXBuildFile; fileRef = F3;};
+		B4 = {isa = PBXBuildFile; fileRef = F4;}; B5 = {isa = PBXBuildFile; fileRef = F5;}; B6 = {isa = PBXBuildFile; fileRef = F6;};
+		B7 = {isa = PBXBuildFile; fileRef = F7;};
+		BT = {isa = PBXBuildFile; fileRef = FT;}; BX = {isa = PBXBuildFile; fileRef = FX;};
+/* End PBXBuildFile section */
+/* Begin PBXContainerItemProxy section */
+		CP = {isa = PBXContainerItemProxy; containerPortal = PROJ; proxyType = 1; remoteGlobalIDString = APP; remoteInfo = AeroPeek;};
+/* End PBXContainerItemProxy section */
+/* Begin PBXFileReference section */
+		F1 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AeroPeekApp.swift; sourceTree = "<group>";};
+		F2 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>";};
+		F3 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardCommand.swift; sourceTree = "<group>";};
+		F4 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayPanel.swift; sourceTree = "<group>";};
+		F5 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayView.swift; sourceTree = "<group>";};
+		F6 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkspaceModel.swift; sourceTree = "<group>";};
+		F7 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIconProvider.swift; sourceTree = "<group>";};
+		FT = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardCommandTests.swift; sourceTree = "<group>";};
+		FX = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = System/Library/Frameworks/XCTest.framework; sourceTree = SDKROOT;};
+		PA = {isa = PBXFileReference; explicitFileType = wrapper.application; path = AeroPeek.app; sourceTree = BUILT_PRODUCTS_DIR;};
+		PT = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = AeroPeekTests.xctest; sourceTree = BUILT_PRODUCTS_DIR;};
+/* End PBXFileReference section */
+/* Begin PBXFrameworksBuildPhase section */
+		AF = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0;};
+		TF = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (BX,); runOnlyForDeploymentPostprocessing = 0;};
+/* End PBXFrameworksBuildPhase section */
+/* Begin PBXGroup section */
+		MAIN = {isa = PBXGroup; children = (SRC, TESTS, PRODUCTS, FRAMEWORKS,); sourceTree = "<group>";};
+		SRC = {isa = PBXGroup; children = (F1,F2,F3,F4,F5,F6,F7,); path = AeroPeek; sourceTree = "<group>";};
+		TESTS = {isa = PBXGroup; children = (FT,); path = AeroPeekTests; sourceTree = "<group>";};
+		PRODUCTS = {isa = PBXGroup; children = (PA,PT,); name = Products; sourceTree = "<group>";};
+		FRAMEWORKS = {isa = PBXGroup; children = (FX,); name = Frameworks; sourceTree = "<group>";};
+/* End PBXGroup section */
+/* Begin PBXNativeTarget section */
+		APP = {isa = PBXNativeTarget; buildConfigurationList = ACL; buildPhases = (AS,AF,AR,); buildRules = (); dependencies = (); name = AeroPeek; productName = AeroPeek; productReference = PA; productType = "com.apple.product-type.application";};
+		TEST = {isa = PBXNativeTarget; buildConfigurationList = TCL; buildPhases = (TS,TF,TR,); buildRules = (); dependencies = (DEP,); name = AeroPeekTests; productName = AeroPeekTests; productReference = PT; productType = "com.apple.product-type.bundle.unit-test";};
+/* End PBXNativeTarget section */
+/* Begin PBXProject section */
+		PROJ = {isa = PBXProject; attributes = {BuildIndependentTargetsInParallel = YES; LastUpgradeCheck = 2600; TargetAttributes = {TEST = {TestTargetID = APP;};};}; buildConfigurationList = PCL; compatibilityVersion = "Xcode 14.0"; developmentRegion = en; knownRegions = (en,Base,); mainGroup = MAIN; productRefGroup = PRODUCTS; projectDirPath = ""; projectRoot = ""; targets = (APP,TEST,);};
+/* End PBXProject section */
+/* Begin PBXResourcesBuildPhase section */
+		AR = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0;};
+		TR = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0;};
+/* End PBXResourcesBuildPhase section */
+/* Begin PBXSourcesBuildPhase section */
+		AS = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (B1,B2,B3,B4,B5,B6,B7,); runOnlyForDeploymentPostprocessing = 0;};
+		TS = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (BT,); runOnlyForDeploymentPostprocessing = 0;};
+/* End PBXSourcesBuildPhase section */
+/* Begin PBXTargetDependency section */
+		DEP = {isa = PBXTargetDependency; target = APP; targetProxy = CP;};
+/* End PBXTargetDependency section */
+/* Begin XCBuildConfiguration section */
+		AD = {isa = XCBuildConfiguration; buildSettings = {CODE_SIGN_STYLE = Automatic; CURRENT_PROJECT_VERSION = 1; ENABLE_HARDENED_RUNTIME = YES; ENABLE_TESTABILITY = YES; GENERATE_INFOPLIST_FILE = YES; INFOPLIST_KEY_LSUIElement = YES; MACOSX_DEPLOYMENT_TARGET = 14.0; MARKETING_VERSION = 1.1.0; PRODUCT_BUNDLE_IDENTIFIER = com.aeropeek.AeroPeek; PRODUCT_NAME = "$(TARGET_NAME)"; SWIFT_OPTIMIZATION_LEVEL = "-Onone"; SWIFT_VERSION = 6.0;}; name = Debug;};
+		AL = {isa = XCBuildConfiguration; buildSettings = {CODE_SIGN_STYLE = Automatic; CURRENT_PROJECT_VERSION = 1; ENABLE_HARDENED_RUNTIME = YES; GENERATE_INFOPLIST_FILE = YES; INFOPLIST_KEY_LSUIElement = YES; MACOSX_DEPLOYMENT_TARGET = 14.0; MARKETING_VERSION = 1.1.0; PRODUCT_BUNDLE_IDENTIFIER = com.aeropeek.AeroPeek; PRODUCT_NAME = "$(TARGET_NAME)"; SWIFT_VERSION = 6.0;}; name = Release;};
+		TD = {isa = XCBuildConfiguration; buildSettings = {BUNDLE_LOADER = "$(TEST_HOST)"; GENERATE_INFOPLIST_FILE = YES; MACOSX_DEPLOYMENT_TARGET = 14.0; PRODUCT_BUNDLE_IDENTIFIER = com.aeropeek.AeroPeekTests; PRODUCT_NAME = "$(TARGET_NAME)"; SWIFT_OPTIMIZATION_LEVEL = "-Onone"; SWIFT_VERSION = 6.0; TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AeroPeek.app/Contents/MacOS/AeroPeek";}; name = Debug;};
+		TL = {isa = XCBuildConfiguration; buildSettings = {BUNDLE_LOADER = "$(TEST_HOST)"; GENERATE_INFOPLIST_FILE = YES; MACOSX_DEPLOYMENT_TARGET = 14.0; PRODUCT_BUNDLE_IDENTIFIER = com.aeropeek.AeroPeekTests; PRODUCT_NAME = "$(TARGET_NAME)"; SWIFT_VERSION = 6.0; TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AeroPeek.app/Contents/MacOS/AeroPeek";}; name = Release;};
+		PD = {isa = XCBuildConfiguration; buildSettings = {CLANG_ENABLE_MODULES = YES; MACOSX_DEPLOYMENT_TARGET = 14.0; SDKROOT = macosx;}; name = Debug;};
+		PL = {isa = XCBuildConfiguration; buildSettings = {CLANG_ENABLE_MODULES = YES; MACOSX_DEPLOYMENT_TARGET = 14.0; SDKROOT = macosx;}; name = Release;};
+/* End XCBuildConfiguration section */
+/* Begin XCConfigurationList section */
+		ACL = {isa = XCConfigurationList; buildConfigurations = (AD,AL,); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release;};
+		TCL = {isa = XCConfigurationList; buildConfigurations = (TD,TL,); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release;};
+		PCL = {isa = XCConfigurationList; buildConfigurations = (PD,PL,); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release;};
+/* End XCConfigurationList section */
+	};
+	rootObject = PROJ;
+}
