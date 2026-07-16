@@ -22,7 +22,6 @@ struct OverlayView: View {
             RoundedRectangle(cornerRadius: 18, style: .continuous)
                 .stroke(.white.opacity(0.16), lineWidth: 1)
         }
-        .shadow(color: .black.opacity(0.28), radius: 24, y: 12)
     }
 
     private var workspaceList: some View {

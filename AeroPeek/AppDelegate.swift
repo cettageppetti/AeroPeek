@@ -16,7 +16,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     private func createPanel() {
         panel = OverlayPanel(contentRect: NSRect(x: 0, y: 0, width: 620, height: 540), styleMask: [.borderless, .nonactivatingPanel, .fullSizeContentView], backing: .buffered, defer: false)
-        panel.contentView = NSHostingView(rootView: OverlayView(model: model))
+        let contentView = NSHostingView(rootView: OverlayView(model: model))
+        contentView.wantsLayer = true
+        contentView.layer?.cornerRadius = 18
+        contentView.layer?.cornerCurve = .continuous
+        contentView.layer?.masksToBounds = true
+        panel.contentView = contentView
         panel.isFloatingPanel = true; panel.level = .floating; panel.hasShadow = true
         panel.backgroundColor = .clear; panel.isOpaque = false
         panel.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary, .transient]
