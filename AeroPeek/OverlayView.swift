@@ -49,6 +49,7 @@ struct OverlayView: View {
                     }
                 }
             }
+            .scrollIndicators(.hidden)
             .frame(maxHeight: 500)
             .onChange(of: model.selection) { _, selection in
                 guard let selection else { return }
@@ -81,10 +82,14 @@ private struct WorkspaceRowView: View {
 
     var body: some View {
         HStack(spacing: 10) {
-            Image(systemName: disclosureSymbol)
-                .font(.system(size: 9, weight: .bold))
-                .foregroundStyle(workspace.isEmpty ? .quaternary : .secondary)
-                .frame(width: 10)
+            if workspace.isEmpty {
+                Spacer().frame(width: 10)
+            } else {
+                Image(systemName: isExpanded ? "chevron.down" : "chevron.right")
+                    .font(.system(size: 9, weight: .bold))
+                    .foregroundStyle(.secondary)
+                    .frame(width: 10)
+            }
             activeIndicator
             Text(workspace.id)
                 .font(.system(size: 15, weight: .semibold, design: .rounded))
@@ -103,10 +108,6 @@ private struct WorkspaceRowView: View {
         .background(SelectionBackground(isSelected: isSelected))
         .opacity(workspace.isEmpty && !isSelected ? 0.52 : 1)
         .animation(.easeOut(duration: 0.12), value: isSelected)
-    }
-
-    private var disclosureSymbol: String {
-        workspace.isEmpty ? "circle" : (isExpanded ? "chevron.down" : "chevron.right")
     }
 
     private var activeIndicator: some View {
