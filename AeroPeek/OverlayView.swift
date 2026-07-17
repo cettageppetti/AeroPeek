@@ -66,8 +66,8 @@ struct OverlayView: View {
             Image(systemName: "rectangle.3.group")
                 .font(.system(size: 18, weight: .semibold)).foregroundStyle(.tint)
             VStack(alignment: .leading, spacing: 1) {
-                Text("Workspaces").font(.system(size: 17, weight: .semibold))
-                Text("AeroSpace").font(.caption).foregroundStyle(.secondary)
+                Text("AeroPeek").font(.system(size: 17, weight: .semibold))
+                Text("Workspaces").font(.caption).foregroundStyle(.secondary)
             }
             Spacer()
             Text("←→ Collapse/Expand   ↑↓ Navigate   ↩ Switch")
