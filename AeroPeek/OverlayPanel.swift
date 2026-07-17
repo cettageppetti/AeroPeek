@@ -14,6 +14,11 @@ final class OverlayPanel: NSPanel {
     }
 
     override func cancelOperation(_ sender: Any?) { handleCommand?(.dismiss) }
+    override func moveUp(_ sender: Any?) { handleCommand?(.moveSelection(-1)) }
+    override func moveDown(_ sender: Any?) { handleCommand?(.moveSelection(1)) }
+    override func moveLeft(_ sender: Any?) { handleCommand?(.collapseSelection) }
+    override func moveRight(_ sender: Any?) { handleCommand?(.expandSelection) }
+    override func insertNewline(_ sender: Any?) { handleCommand?(.activateSelection) }
     override func moveToBeginningOfDocument(_ sender: Any?) { handleCommand?(.selectFirst) }
     override func moveToEndOfDocument(_ sender: Any?) { handleCommand?(.selectLast) }
     override func scrollToBeginningOfDocument(_ sender: Any?) { handleCommand?(.selectFirst) }

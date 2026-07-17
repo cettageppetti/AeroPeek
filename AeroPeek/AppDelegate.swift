@@ -16,7 +16,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     private func createPanel() {
         panel = OverlayPanel(contentRect: NSRect(x: 0, y: 0, width: 620, height: 540), styleMask: [.borderless, .nonactivatingPanel, .fullSizeContentView], backing: .buffered, defer: false)
-        let contentView = NSHostingView(rootView: OverlayView(model: model))
+        let contentView = NSHostingView(rootView: OverlayView(model: model) { [weak self] in
+            self?.handle(.quit)
+        })
         contentView.wantsLayer = true
         contentView.layer?.cornerRadius = 18
         contentView.layer?.cornerCurve = .continuous
@@ -31,6 +33,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private func handle(_ command: KeyboardCommand) {
         switch command {
         case .dismiss: hide()
+        case .quit: NSApp.terminate(nil)
         case .moveSelection(let offset): model.move(by: offset)
         case .selectFirst: model.selectFirst()
         case .selectLast: model.selectLast()

@@ -1,7 +1,7 @@
 import AppKit
 
 enum KeyboardCommand: Equatable {
-    case dismiss, selectFirst, selectLast, expandSelection, collapseSelection, activateSelection
+    case dismiss, quit, selectFirst, selectLast, expandSelection, collapseSelection, activateSelection
     case moveSelection(Int)
     case activateWorkspace(String)
 }
@@ -26,6 +26,7 @@ struct KeyInput {
 
 enum KeyboardCommandMapper {
     static func command(for input: KeyInput) -> KeyboardCommand? {
+        if input.keyCode == 12, input.modifiers == .command { return .quit }
         if input.keyCode == 115 || input.characters == String(UnicodeScalar(NSHomeFunctionKey)!) { return .selectFirst }
         if input.keyCode == 119 || input.characters == String(UnicodeScalar(NSEndFunctionKey)!) { return .selectLast }
 

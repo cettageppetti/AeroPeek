@@ -18,12 +18,36 @@ final class KeyboardCommandTests: XCTestCase {
         XCTAssertEqual(map(123, nil, .function), .collapseSelection)
         XCTAssertEqual(map(36), .activateSelection); XCTAssertEqual(map(53), .dismiss)
     }
+    func testQuitShortcut() {
+        XCTAssertEqual(map(12, "q", .command), .quit)
+        XCTAssertEqual(map(12, "q"), .activateWorkspace("Q"))
+    }
     func testTypeToSelect() {
         for key in ["1", "9", "a", "B", "n"] { XCTAssertEqual(map(0, key), .activateWorkspace(key.uppercased())) }
         XCTAssertNil(map(0, "A", .option)); XCTAssertNil(map(0, "-")); XCTAssertNil(map(0, "AB"))
     }
     private func map(_ code: UInt16, _ characters: String? = nil, _ modifiers: NSEvent.ModifierFlags = []) -> KeyboardCommand? {
         KeyboardCommandMapper.command(for: KeyInput(keyCode: code, characters: characters, modifiers: modifiers))
+    }
+}
+
+@MainActor
+final class OverlayPanelCommandTests: XCTestCase {
+    func testResponderChainNavigationCommandsAreForwarded() {
+        let panel = OverlayPanel()
+        var commands: [KeyboardCommand] = []
+        panel.handleCommand = { commands.append($0) }
+
+        panel.moveDown(nil)
+        panel.moveUp(nil)
+        panel.moveRight(nil)
+        panel.moveLeft(nil)
+        panel.insertNewline(nil)
+
+        XCTAssertEqual(commands, [
+            .moveSelection(1), .moveSelection(-1), .expandSelection,
+            .collapseSelection, .activateSelection
+        ])
     }
 }
 

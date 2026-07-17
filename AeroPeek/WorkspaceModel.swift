@@ -40,6 +40,7 @@ final class WorkspaceModel: ObservableObject {
     @Published private(set) var selection: WorkspaceSelection?
     @Published private(set) var expandedWorkspaceID: String?
     @Published private(set) var errorMessage: String?
+    private var refreshTask: Task<Void, Never>?
 
     init(workspaces: [Workspace] = [], selection: WorkspaceSelection? = nil) {
         self.workspaces = workspaces
@@ -57,9 +58,11 @@ final class WorkspaceModel: ObservableObject {
     }
 
     func refresh() {
-        Task {
+        refreshTask?.cancel()
+        refreshTask = Task {
             do {
                 let snapshot = try await AeroSpaceClient.snapshot()
+                try Task.checkCancellation()
                 workspaces = snapshot.workspaceIDs.map {
                     Workspace(id: $0, windows: snapshot.windows[$0, default: []], isActive: $0 == snapshot.active)
                 }
@@ -67,6 +70,8 @@ final class WorkspaceModel: ObservableObject {
                 selection = workspaces.first(where: \.isActive).map { .workspace($0.id) }
                     ?? workspaces.first.map { .workspace($0.id) }
                 errorMessage = nil
+            } catch is CancellationError {
+                return
             } catch { errorMessage = error.localizedDescription }
         }
     }

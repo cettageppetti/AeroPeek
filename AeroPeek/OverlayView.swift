@@ -2,6 +2,7 @@ import SwiftUI
 
 struct OverlayView: View {
     @ObservedObject var model: WorkspaceModel
+    let onQuit: () -> Void
 
     var body: some View {
         VStack(alignment: .leading, spacing: 14) {
@@ -71,6 +72,10 @@ struct OverlayView: View {
             Spacer()
             Text("←→ Collapse/Expand   ↑↓ Navigate   ↩ Switch")
                 .font(.system(size: 11, weight: .medium)).foregroundStyle(.tertiary)
+            Button("Quit", systemImage: "power", action: onQuit)
+                .buttonStyle(.borderless)
+                .font(.system(size: 11, weight: .medium))
+                .help("Quit AeroPeek (⌘Q)")
         }
     }
 }
