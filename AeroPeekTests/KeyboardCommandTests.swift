@@ -26,6 +26,9 @@ final class KeyboardCommandTests: XCTestCase {
         for key in ["1", "9", "a", "B", "n"] { XCTAssertEqual(map(0, key), .activateWorkspace(key.uppercased())) }
         XCTAssertNil(map(0, "A", .option)); XCTAssertNil(map(0, "-")); XCTAssertNil(map(0, "AB"))
     }
+    func testTabIsNotAnOverlayCommand() {
+        XCTAssertNil(map(48, "\t"))
+    }
     private func map(_ code: UInt16, _ characters: String? = nil, _ modifiers: NSEvent.ModifierFlags = []) -> KeyboardCommand? {
         KeyboardCommandMapper.command(for: KeyInput(keyCode: code, characters: characters, modifiers: modifiers))
     }

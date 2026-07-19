@@ -74,6 +74,7 @@ struct OverlayView: View {
                 .font(.system(size: 11, weight: .medium)).foregroundStyle(.tertiary)
             Button("Quit", systemImage: "power", action: onQuit)
                 .buttonStyle(.borderless)
+                .focusable(false)
                 .font(.system(size: 11, weight: .medium))
                 .help("Quit AeroPeek (⌘Q)")
         }
